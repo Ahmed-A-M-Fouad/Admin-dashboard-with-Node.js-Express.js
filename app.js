@@ -48,9 +48,9 @@ app.get("/user/add.html", (req, res) => {
   res.render("user/add", {country_list});
 })
 //  
-app.get("/user/search.html", (req, res) => {
-  res.render("user/search", {});
-})
+// app.get("/user/search.html", (req, res) => {
+//   res.render("user/search", {});
+// })
 app.get("/user/view.html", (req, res) => {
   res.render("user/view", {});
 })
@@ -69,7 +69,7 @@ app.post("/user/add.html", (req, res) => {
 
 //--------------------view exact user in db--------------
 app.get("/view/:id", (req, res) => {
-
+  
   User.findById(req.params.id).then((result) => {
     res.render("user/view", { obj: result })
   }).catch((err) => {
@@ -78,7 +78,7 @@ app.get("/view/:id", (req, res) => {
 })
 //--------------------view & edit exact user in db--------------
 app.get("/edit/:id", (req, res) => {
-
+  
   User.findById(req.params.id).then((result) => {
     res.render("user/edit", { obj: result , country_list})
   }).catch((err) => {
@@ -86,53 +86,57 @@ app.get("/edit/:id", (req, res) => {
   })
 })
 
-//--------------------edit exact user in db--------------
-// app.get("/edit/:id", (req, res) => {
-
-//   User.findById(req.params.id).then((result)=>{
-//     res.render("user/view",{obj: result})
-//   }).catch((err)=>{
-//     console.log(err)
-//   })
-// })
-//--------------------delete exact user in db--------------
-app.delete("/delete/:id", (req, res) => {
-  
-  
-  /*also u can use:
-  User.findByIdAndDelete(req.params.id)*/
-  
-  
-  User.deleteOne({ _id: req.params.id }).then(() => {
-    res.redirect("/")
-  }).catch((err) => {
-    console.log(err)
-  })
-})
-//--------------------update exact user in db--------------
-
-app.put("/edit/:id",(req,res)=>{
-  User.updateOne({_id:req.params.id},req.body)
-  
-  .then(()=>{res.redirect("/")})
-  .catch((err) => {
-    console.log(err)
-
-  })
-})
-
-
-
-
-
-//--------------------database connection---------------
-mongoose
-  .connect(
-    "mongodb+srv://arj181612_db_user:QJIppnzJcKkxZUkj@cluster0.y2nuaxh.mongodb.net/all-dataa?appName=Cluster0",
-  )
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`http://localhost:3000/ ${port}`);
+      //--------------------delete exact user in db--------------
+      app.delete("/delete/:id", (req, res) => {
+        
+        
+        /*also u can use:
+        User.findByIdAndDelete(req.params.id)*/
+        
+        
+        User.deleteOne({ _id: req.params.id }).then(() => {
+          res.redirect("/")
+        }).catch((err) => {
+          console.log(err)
+        })
+      })
+      //--------------------update exact user in db--------------
+      
+      app.put("/edit/:id",(req,res)=>{
+        User.updateOne({_id:req.params.id},req.body)
+        
+        .then(()=>{res.redirect("/")})
+        .catch((err) => {
+          console.log(err)
+          
+        })
+      })
+      
+      //-------------------search into db-------------------
+      app.get("/search", (req, res) => {
+        const text = req.query.search || "";
+        User
+          .find({ $or:[{ firstName: { $regex: text, $options: "i" } },
+            { lastName: { $regex: text, $options: "i" } }] })
+          .then((result) => {
+            res.render("user/search", {result});
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+      
+      
+      
+      
+      //--------------------database connection---------------
+      mongoose
+      .connect(
+        "mongodb+srv://arj181612_db_user:QJIppnzJcKkxZUkj@cluster0.y2nuaxh.mongodb.net/all-dataa?appName=Cluster0",
+      )
+      .then(() => {
+        app.listen(port, () => {
+          console.log(`http://localhost:3000/ ${port}`);
     });
   })
   .catch((err) => {
