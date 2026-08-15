@@ -1,101 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const User = require("../model/myDataSchema.js");
-const country_list = require("../data/data.js");
+const controller = require("../controller/userController.js")
 
 
 
 
 //--------------------view the db--------------
-router.get("/", (req, res) => {
-
-  User.find().then((result) => {
-    res.render("index", { arr: result })
-  }).catch((err) => {
-    console.log(err)
-  })
-
-})
+router.get("/", controller.user_index_get)
 //--------------------requsets handling--------------
 
-router.get("/user/add.html", (req, res) => {
-  res.render("user/add", {country_list});
-})
+router.get("/user/add.html",controller.user_add_get )
 
-router.get("/user/view.html", (req, res) => {
-  res.render("user/view", {});
-})
+router.get("/user/view.html",controller.user_view_get_1 )
 
 //-------------------Add into db-------------------
-router.post("/user/add.html", (req, res) => {
-  User
-    .create(req.body)
-    .then(() => {
-      res.redirect("/user/add.html");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+router.post("/user/add.html",controller.user_post );
 
 //--------------------view exact user in db--------------
-router.get("/view/:id", (req, res) => {
-  
-User.findById(req.params.id).then((result) => {
-res.render("user/view", { obj: result })
-}).catch((err) => {
-console.log(err)
-})
-})
+router.get("/view/:id",controller.user_view_get_2 )
 //--------------------view & edit exact user in db--------------
-router.get("/edit/:id", (req, res) => {
-  
-  User.findById(req.params.id).then((result) => {
-    res.render("user/edit", { obj: result , country_list})
-  }).catch((err) => {
-    console.log(err)
-  })
-})
+router.get("/edit/:id",controller.user_edit_get )
 
 //--------------------delete exact user in db--------------
-router.delete("/delete/:id", (req, res) => {
-
-
-/*also u can use:
-User.findByIdAndDelete(req.params.id)*/
-
-
-User.deleteOne({ _id: req.params.id }).then(() => {
-res.redirect("/")
-}).catch((err) => {
-console.log(err)
-})
-})
+router.delete("/delete/:id",controller.user_delete )
 //--------------------update exact user in db--------------
 
-router.put("/edit/:id",(req,res)=>{
-User.updateOne({_id:req.params.id},req.body)
-
-.then(()=>{res.redirect("/")})
-.catch((err) => {
-console.log(err)
-
-})
-})
+router.put("/edit/:id",controller.user_put)
 
 //-------------------search into db-------------------
-router.get("/search", (req, res) => {
-const text = req.query.search || "";
-User
-.find({ $or:[{ firstName: { $regex: text, $options: "i" } },
-{ lastName: { $regex: text, $options: "i" } }] })
-.then((result) => {
-res.render("user/search", {result});
-})
-.catch((err) => {
-console.log(err);
-});
-});
+router.get("/search",controller.user_search_get );
 
 
 module.exports=router;
