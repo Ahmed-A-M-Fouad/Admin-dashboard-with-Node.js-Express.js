@@ -11,13 +11,12 @@ router.get("/", controller.user_index_get)
 
 router.get("/user/add.html",controller.user_add_get )
 
-router.get("/user/view.html",controller.user_view_get_1 )
 
 //-------------------Add into db-------------------
 router.post("/user/add.html",controller.user_post );
 
 //--------------------view exact user in db--------------
-router.get("/view/:id",controller.user_view_get_2 )
+router.get("/view/:id",controller.user_view_get )
 //--------------------view & edit exact user in db--------------
 router.get("/edit/:id",controller.user_edit_get )
 

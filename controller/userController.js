@@ -16,9 +16,7 @@ const user_index_get = (req, res) => {
 const user_add_get = (req, res) => {
   res.render("user/add", { country_list });
 };
-const user_view_get_1 = (req, res) => {
-  res.render("user/view", {});
-};
+
 //-------------------Add into db-------------------
 
 const user_post = (req, res) => {
@@ -32,7 +30,7 @@ const user_post = (req, res) => {
 };
 //--------------------view exact user in db--------------
 
-const user_view_get_2 = (req, res) => {
+const user_view_get = (req, res) => {
   User.findById(req.params.id)
     .then((result) => {
       res.render("user/view", { obj: result });
@@ -98,9 +96,8 @@ const user_search_get = (req, res) => {
 module.exports = {
   user_index_get,
   user_add_get,
-  user_view_get_1,
   user_post,
-  user_view_get_2,
+  user_view_get,
   user_edit_get,
   user_delete,
   user_put,
