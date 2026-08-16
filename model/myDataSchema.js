@@ -12,6 +12,8 @@ const userSchema = new Schema({
   gender: String},
 { timestamps: true }
 )
+userSchema.index({ firstName: 1 });
+userSchema.index({ lastName: 1 });
 
 // Create a model based on that schema
 const User = mongoose.model("User", userSchema)

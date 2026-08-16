@@ -25,7 +25,6 @@ const user_add_get = (req, res) => {
 
 //-------------------Add into db-------------------
 
-
 const user_post = (req, res) => {
   User.create(req.body)
     .then(() => {
@@ -86,15 +85,20 @@ const user_put = (req, res) => {
 //-------------------search into db-------------------
 
 const user_search_get = (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const skip = (page - 1) * limit;
   const text = req.query.search || "";
   User.find({
     $or: [
-      { firstName: { $regex: text, $options: "i" } },
-      { lastName: { $regex: text, $options: "i" } },
+      { firstName: { $regex: "^" + text, $options: "i" } },
+      { lastName: { $regex: "^" + text, $options: "i" } },
     ],
   })
+    .skip(skip)
+    .limit(limit)
     .then((result) => {
-      res.render("user/search", { result });
+      res.render("user/search", { result, page, skip, text });
     })
     .catch((err) => {
       console.log(err);
