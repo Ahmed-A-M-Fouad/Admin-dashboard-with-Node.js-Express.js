@@ -3,9 +3,15 @@ const country_list = require("../data/data.js");
 //--------------------view the db--------------
 
 const user_index_get = (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const skip = (page - 1) * limit;
+
   User.find()
+    .skip(skip)
+    .limit(limit)
     .then((result) => {
-      res.render("index", { arr: result });
+      res.render("index", { arr: result, page, skip });
     })
     .catch((err) => {
       console.log(err);
@@ -18,6 +24,7 @@ const user_add_get = (req, res) => {
 };
 
 //-------------------Add into db-------------------
+
 
 const user_post = (req, res) => {
   User.create(req.body)
