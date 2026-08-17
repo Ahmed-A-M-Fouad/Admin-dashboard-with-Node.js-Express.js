@@ -71,7 +71,7 @@ const user_delete = (req, res) => {
   User.deleteOne({ _id: req.params.id })
     .then(() => {
       const {lastId,count}=req.query;
-      const query=`?lastId=${lastId}&count=${count}`
+      const query=lastId ? `?lastId=${lastId}&count=${count}` : "";
       res.redirect(`/${query}`);
     })
     .catch((err) => {
@@ -113,6 +113,7 @@ const user_search_get = (req, res) => {
       console.log(err);
     });
 };
+const failed=(req,res)=>{res.status(404).render("404");}
 module.exports = {
   user_index_get,
   user_add_get,
@@ -122,4 +123,5 @@ module.exports = {
   user_delete,
   user_put,
   user_search_get,
+  failed
 };

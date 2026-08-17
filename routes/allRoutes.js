@@ -29,5 +29,7 @@ router.put("/edit/:id",controller.user_put)
 //-------------------search into db-------------------
 router.get("/search",controller.user_search_get );
 
+router.use(controller.failed);
+
 
 module.exports=router;
