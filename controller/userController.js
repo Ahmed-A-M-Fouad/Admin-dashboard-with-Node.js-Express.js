@@ -7,14 +7,15 @@ const user_index_get = (req, res) => {
   const lastId = req.query.lastId;
   const count = parseInt(req.query.count)||0;
   const query = lastId ? { _id: { $gt: lastId } } : {};
-  
 
   User.find(query)
     .sort({ _id: 1 })
-    .limit(limit)
+    .limit(limit+1)
     .then((result) => {
-      const newLastId=result.length>0 ? result[result.length-1]._id : null
-      res.render("index", { arr: result, newLastId, hasNext:result.length===limit,count });
+      const hasNext = result.length>limit
+      const arr = hasNext?result.slice(0,limit):result
+      const newLastId=arr.length>0 ? arr[arr.length-1]._id : null
+      res.render("index", { arr, newLastId, hasNext,count });
     })
     .catch((err) => {
       console.log(err);

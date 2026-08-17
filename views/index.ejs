@@ -66,10 +66,10 @@
                     </td>
                     <td>
                       <% const now=new Date(); const past=new Date(element.updatedAt); const diffMs=now - past; const
-                        oneDayMs=1000 * 60 * 60 * 24; const less=">day" ; const days=Math.floor(diffMs / oneDayMs);
-                        const res=days>= 1 ? days : less%>
+                        oneDayMs=1000 * 60 * 60 * 24; const less=">day" ; const days=Math.floor(diffMs / oneDayMs)+"day";
+                        const res=days>= 1 ? days : less%> 
 
-                        <%= res %>
+                        <%= res %> 
                     </td>
                     <td>
                       <a data-bs-toggle="tooltip" data-bs-title="View details" data-bs-placement="top"
@@ -132,7 +132,7 @@
                 </style>
 
                 <div class="pagination-wrapper">
-                  <% if (hasNext) { %>
+                  <% if (hasNext && arr.length) { %>
                     <a class="next-btn" href="/?lastId=<%= newLastId %>&count=<%=count+arr.length%>">Next &rarr;</a>
                     <% } else { %>
                       <span class="no-more-text">No more users</span>
