@@ -3,15 +3,18 @@ const country_list = require("../data/data.js");
 //--------------------view the db--------------
 
 const user_index_get = (req, res) => {
-  const page = parseInt(req.query.page) || 1;
   const limit = 5;
-  const skip = (page - 1) * limit;
+  const lastId = req.query.lastId;
+  const count = parseInt(req.query.count)||0;
+  const query = lastId ? { _id: { $gt: lastId } } : {};
+  
 
-  User.find()
-    .skip(skip)
+  User.find(query)
+    .sort({ _id: 1 })
     .limit(limit)
     .then((result) => {
-      res.render("index", { arr: result, page, skip });
+      const newLastId=result.length>0 ? result[result.length-1]._id : null
+      res.render("index", { arr: result, newLastId, hasNext:result.length===limit,count });
     })
     .catch((err) => {
       console.log(err);
@@ -85,20 +88,21 @@ const user_put = (req, res) => {
 //-------------------search into db-------------------
 
 const user_search_get = (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = 5;
-  const skip = (page - 1) * limit;
   const text = req.query.search || "";
-  User.find({
+  const words = text.trim().split(/\s+/).filter(Boolean);
+
+  const searchConditions = words.map((word) => ({
     $or: [
-      { firstName: { $regex: "^" + text, $options: "i" } },
-      { lastName: { $regex: "^" + text, $options: "i" } },
+      { firstName: { $regex: word, $options: "i" } },
+      { lastName: { $regex: word, $options: "i" } },
     ],
-  })
-    .skip(skip)
-    .limit(limit)
+  }));
+
+  const query = searchConditions.length ? { $and: searchConditions } : {};
+
+  User.find(query)
     .then((result) => {
-      res.render("user/search", { result, page, skip, text });
+      res.render("user/search", { result });
     })
     .catch((err) => {
       console.log(err);

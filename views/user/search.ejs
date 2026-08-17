@@ -236,8 +236,9 @@
         <div class="container-fluid justify-content-center justify-content-md-between">
           <a class="navbar-brand fw-medium fs-3 mb-1 mb-md-0">Search table</a>
 
-          <!-- <form class="d-flex" role="search">
+           <form class="d-flex" role="search"action="/search" method="get">
               <input
+                name="search"
                 class="form-control me-2"
                 type="search"
                 placeholder="Search"
@@ -246,7 +247,7 @@
               <button class="btn btn-outline-success" type="submit">
                 Search
               </button>
-            </form> -->
+            </form> 
         </div>
       </nav>
 
@@ -268,7 +269,7 @@
             <tr>
 
               <th scope="row">
-                <%= skip+index+1 %>
+                <%= index+1 %>
               </th>
               <td>
                 <%= element.firstName %>
@@ -301,17 +302,7 @@
             <%}); %>
           </tbody>
         </table>
-        <div class="d-flex justify-content-center gap-3 mt-3">
-          <% if (page> 1) { %>
-            <a href="/search?search=<%= text %>&page=<%= page - 1 %>"class="btn btn-secondary">prev</a>
-            <% } %>
-
-              <span>page <%= page %></span>
-
-          <% if (result.length===5) { %>
-            <a href="/search?search=<%= text %>&page=<%= page + 1 %>"class="btn btn-secondary">next</a>
-            <% } %>
-          </div>
+        
     </section>
   </main>
   <script src="../js/bootstrap.bundle.min.js"></script>

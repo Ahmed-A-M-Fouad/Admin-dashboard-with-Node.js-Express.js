@@ -32,13 +32,7 @@
 
             <table style="width: 99%" class="text-center mx-auto table mt-5 table-striped table-bordered">
               <thead>
-                <% if (arr.length===0) {%>
-
-                  <tr>
-                    <th>No data available</th>
-
-                  </tr>
-                  <%}else{%>
+              
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Full Name</th>
@@ -55,7 +49,7 @@
 
                   <tr>
                     <th scope="row">
-                      <%= skip+index+1 %>
+                      <%= count+index+1 %>
                     </th>
                     <td>
                       <%=element.firstName%>
@@ -101,20 +95,49 @@
                   </td>
                   </tr>
               </tbody>
+
               <% }) %>
-                <%}%>
             </table>
-            <div class="d-flex justify-content-center gap-3 mt-3">
-              <% if (page> 1) { %>
-                <a href="/?page=<%= page - 1 %>" class="btn btn-secondary">prev</a>
-                <% } %>
+             
+                </div>
+                <style>
+                  .pagination-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 20px;
+                  }
 
-                  <span>page <%= page %></span>
+                  .next-btn {
+                    display: inline-block;
+                    background-color: #2563eb;
+                    color: #fff;
+                    text-decoration: none;
+                    padding: 10px 24px;
+                    border-radius: 8px;
+                    font-family: sans-serif;
+                    font-weight: 600;
+                    transition: background-color 0.2s ease, transform 0.1s ease;
+                  }
 
-                  <% if (arr.length===5) { %>
-                    <a href="/?page=<%= page + 1 %>" class="btn btn-secondary">next</a>
-                    <% } %>
-            </div>
+                  .next-btn:hover {
+                    background-color: #1d4ed8;
+                    transform: translateY(-1px);
+                  }
+
+                  .no-more-text {
+                    color: #6b7280;
+                    font-family: sans-serif;
+                    font-style: italic;
+                  }
+                </style>
+
+                <div class="pagination-wrapper">
+                  <% if (hasNext) { %>
+                    <a class="next-btn" href="/?lastId=<%= newLastId %>&count=<%=count+arr.length%>">Next &rarr;</a>
+                    <% } else { %>
+                      <span class="no-more-text">No more users</span>
+                      <% } %>
+                </div>
         </section>
     </main>
     <script src="./js/bootstrap.bundle.min.js"></script>
