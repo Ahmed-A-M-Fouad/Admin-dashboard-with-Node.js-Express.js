@@ -1,0 +1,49 @@
+
+  .pagination-wrapper {
+    display: flex;
+    flex-direction: column;   /* ✅ ده اللي بيخلي الترتيب رأسي */
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .divider-line {
+    width: 200px;              /* عدّل الطول حسب ما يعجبك */
+    border: none;
+    border-top: 1px solid #d1d5db;
+    margin: 0;
+  }
+
+  .extra-text {
+    color: #374151;
+    font-family: sans-serif;
+    font-weight: 600;
+  }
+      .pagination-wrapper-1 {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+              }
+
+              .next-btn {
+                display: inline-block;
+                background-color: #2563eb;
+                color: #fff;
+                text-decoration: none;
+                padding: 10px 24px;
+                border-radius: 8px;
+                font-family: sans-serif;
+                font-weight: 600;
+                transition: background-color 0.2s ease, transform 0.1s ease;
+              }
+
+              .next-btn:hover {
+                background-color: #1d4ed8;
+                transform: translateY(-1px);
+              }
+
+              .no-more-text {
+                color: #6b7280;
+                font-family: sans-serif;
+                font-style: italic;
+              }

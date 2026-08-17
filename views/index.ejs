@@ -19,6 +19,7 @@
   <!-- Custom styles for this template -->
   <link href="./css/sidebars.css" rel="stylesheet" />
   <link rel="stylesheet" href="./css/myStyle.css" />
+  <link rel="stylesheet" href="./css/index.css" />
 </head>
 
 <body>
@@ -32,16 +33,16 @@
 
             <table style="width: 99%" class="text-center mx-auto table mt-5 table-striped table-bordered">
               <thead>
-              
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Full Name</th>
-                      <th scope="col">Gender</th>
-                      <th scope="col">Country</th>
-                      <th scope="col">Age</th>
-                      <th scope="col">Last updated</th>
-                      <th scope="col">Action</th>
-                    </tr>
+
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Gender</th>
+                  <th scope="col">Country</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Last updated</th>
+                  <th scope="col">Action</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -66,10 +67,10 @@
                     </td>
                     <td>
                       <% const now=new Date(); const past=new Date(element.updatedAt); const diffMs=now - past; const
-                        oneDayMs=1000 * 60 * 60 * 24; const less=">day" ; const days=Math.floor(diffMs / oneDayMs)+"day";
-                        const res=days>= 1 ? days : less%> 
+                        oneDayMs=1000 * 60 * 60 * 24; const less=">day" ; const days=Math.floor(diffMs /
+                        oneDayMs)+"day"; const res=days>= 1 ? days : less%>
 
-                        <%= res %> 
+                        <%= res %>
                     </td>
                     <td>
                       <a data-bs-toggle="tooltip" data-bs-title="View details" data-bs-placement="top"
@@ -79,7 +80,9 @@
                         class="btn btn-primary btn-sm" href="/edit/<%= element._id %>">
                         <i class="bi bi-pencil"></i>
                       </a>
-                      <form style="display: inline;" action="/delete/<%= element._id %>?_method=delete" method="post">
+                      <form style="display: inline;"
+                        action="/delete/<%= element._id %>?_method=delete&lastId=<%=lastId%>&count=<%=count%>"
+                        method="post">
                         <button type="submit" data-bs-toggle="tooltip" data-bs-title="Delete user"
                           data-bs-placement="top" class="btn btn-danger btn-sm">
                           <i class="bi bi-trash"></i>
@@ -98,46 +101,22 @@
 
               <% }) %>
             </table>
-             
-                </div>
-                <style>
-                  .pagination-wrapper {
-                    display: flex;
-                    justify-content: center;
-                    margin-top: 20px;
-                  }
 
-                  .next-btn {
-                    display: inline-block;
-                    background-color: #2563eb;
-                    color: #fff;
-                    text-decoration: none;
-                    padding: 10px 24px;
-                    border-radius: 8px;
-                    font-family: sans-serif;
-                    font-weight: 600;
-                    transition: background-color 0.2s ease, transform 0.1s ease;
-                  }
+            </div>
+          
 
-                  .next-btn:hover {
-                    background-color: #1d4ed8;
-                    transform: translateY(-1px);
-                  }
+            <div class="pagination-wrapper">
+              <% if (hasNext && arr.length) { %>
+                <a class="next-btn" href="/?lastId=<%= newLastId %>&count=<%=count+arr.length%>&page=<%=page%>">Next &rarr;</a>
 
-                  .no-more-text {
-                    color: #6b7280;
-                    font-family: sans-serif;
-                    font-style: italic;
-                  }
-                </style>
+                <% } else { %>
+                  <span class="no-more-text">No more users</span>
+                  <% } %>
+                    <hr class="divider-line">
 
-                <div class="pagination-wrapper">
-                  <% if (hasNext && arr.length) { %>
-                    <a class="next-btn" href="/?lastId=<%= newLastId %>&count=<%=count+arr.length%>">Next &rarr;</a>
-                    <% } else { %>
-                      <span class="no-more-text">No more users</span>
-                      <% } %>
-                </div>
+                    <span class="extra-text">page:<%=page%></span>
+            </div>
+            
         </section>
     </main>
     <script src="./js/bootstrap.bundle.min.js"></script>

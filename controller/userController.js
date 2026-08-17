@@ -7,6 +7,8 @@ const user_index_get = (req, res) => {
   const lastId = req.query.lastId;
   const count = parseInt(req.query.count)||0;
   const query = lastId ? { _id: { $gt: lastId } } : {};
+  let page=parseInt(req.query.page)||0
+  page = page?++page:1;
 
   User.find(query)
     .sort({ _id: 1 })
@@ -14,8 +16,8 @@ const user_index_get = (req, res) => {
     .then((result) => {
       const hasNext = result.length>limit
       const arr = hasNext?result.slice(0,limit):result
-      const newLastId=arr.length>0 ? arr[arr.length-1]._id : null
-      res.render("index", { arr, newLastId, hasNext,count });
+      const newLastId= arr.length > 0 ? arr[arr.length - 1]._id : null; 
+      res.render("index", { arr, newLastId, hasNext,count,lastId,page });
     })
     .catch((err) => {
       console.log(err);
@@ -68,7 +70,9 @@ const user_delete = (req, res) => {
 
   User.deleteOne({ _id: req.params.id })
     .then(() => {
-      res.redirect("/");
+      const {lastId,count}=req.query;
+      const query=`?lastId=${lastId}&count=${count}`
+      res.redirect(`/${query}`);
     })
     .catch((err) => {
       console.log(err);
