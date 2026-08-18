@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,9 +29,7 @@ const allRoutes = require("./routes/allRoutes");
 
 //--------------------database connection---------------
 mongoose
-  .connect(
-    "mongodb+srv://arj181612_db_user:QJIppnzJcKkxZUkj@cluster0.y2nuaxh.mongodb.net/all-dataa?appName=Cluster0",
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(port, () => {
       console.log(`http://localhost:3000/ ${port}`);
