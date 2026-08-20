@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="css/login_reg.css">
+  <link rel="shortcut icon" href="/img/me.jpeg" type="image/x-icon">
+
+</head>
+<body>
+
+  <div class="auth-shell">
+
+    <!-- Dark schema panel -->
+    <aside class="auth-panel">
+      <div class="brand">
+        <span class="brand-mark">users_db</span>
+        <h1>Every record<br>starts here.</h1>
+        <p>Create an account to be added to the users collection.</p>
+      </div>
+
+      <div class="schema-preview">
+        <div><span class="field">firstName</span> <span class="type">String</span></div>
+        <div><span class="field">lastName</span>&nbsp;&nbsp;<span class="type">String</span></div>
+        <div><span class="field">email</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">String</span></div>
+        <div><span class="field">age</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">Number</span></div>
+        <div><span class="field">country</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">String</span></div>
+      </div>
+
+      <div class="query-line">
+        <span class="prompt">users_db&gt;</span> db.users.insertOne(...)<span class="cursor"></span>
+      </div>
+    </aside>
+
+    <!-- Form panel -->
+    <main class="form-panel">
+      <div class="form-card">
+
+        <div class="form-card-header">
+          <h2>Register</h2>
+          <span class="record-counter"><strong id="fieldCount">0</strong>/8 fields</span>
+        </div>
+        <%if(errors.length>0){%>
+        <% errors.forEach(element => {%>
+          
+          <%= element %>
+          <br><hr>
+          
+        <%}) %>
+        <% } %>
+
+        <form method="post" action="/register" id="registerForm">
+
+          <div class="field-row">
+            <div class="field-group">
+              <span class="field-tag">first_name</span>
+              <input type="text" name="firstName" placeholder="e.g. Ahmed" required>
+            </div>
+            <div class="field-group">
+              <span class="field-tag">last_name</span>
+              <input type="text" name="lastName" placeholder="e.g. Hassan" required>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <span class="field-tag">email</span>
+            <input type="email" name="email" placeholder="you@example.com" required>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <span class="field-tag">password</span>
+              <input type="password" name="password" id="password" placeholder="••••••••" required minlength="6">
+            </div>
+            <div class="field-group">
+              <span class="field-tag">confirm_password</span>
+              <input type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" required minlength="6">
+              <div class="hint" id="matchHint"></div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <span class="field-tag">phone</span>
+              <input type="tel" name="number" placeholder="011 987 899">
+            </div>
+            <div class="field-group">
+              <span class="field-tag">age</span>
+              <input type="number" name="age" placeholder="25" min="0" max="120">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <span class="field-tag">country</span>
+              <select name="country">
+                <option selected hidden disabled value="">Choose...</option>
+                <% country_list.forEach(element => {%>
+                  
+                  <option><%=element%></option>
+                <%}); %>
+                
+              </select>
+            </div>
+            <div class="field-group">
+              <span class="field-tag">gender</span>
+              <select name="gender">
+                <option selected hidden disabled value="">Choose...</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Create account</button>
+        </form>
+
+        <p class="switch-line">
+          Already have an account? <a href="login.html">Log in</a>
+        </p>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>

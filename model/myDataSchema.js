@@ -9,7 +9,8 @@ const userSchema = new Schema({
   number: String,
   age: Number,
   country: String,
-  gender: String},
+  gender: String,
+  password: String},
 { timestamps: true }
 )
 userSchema.index({ firstName: 1 });

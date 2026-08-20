@@ -4,16 +4,20 @@ const controller = require("../controller/userController.js")
 
 
 
+//-------------------register-------------------
+router.get("/register",controller.user_reg_get );
+router.post("/register",controller.user_post );
+//-------------------login-------------------
+// router.get("/login",controller.user_log_get );
+// router.post("/login",controller.user_post );
 
 //--------------------view the db--------------
 router.get("/", controller.user_index_get)
-//--------------------requsets handling--------------
-
-router.get("/user/add.html",controller.user_add_get )
 
 
-//-------------------Add into db-------------------
-router.post("/user/add.html",controller.user_post );
+
+
+
 
 //--------------------view exact user in db--------------
 router.get("/view/:id",controller.user_view_get )
@@ -28,6 +32,10 @@ router.put("/edit/:id",controller.user_put)
 
 //-------------------search into db-------------------
 router.get("/search",controller.user_search_get );
+
+//-------------------register-------------------
+router.get("/search",controller.user_search_get );
+
 
 router.use(controller.failed);
 
