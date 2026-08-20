@@ -27,6 +27,7 @@ app.use(methodOverride("_method"));
 
 const allRoutes = require("./routes/allRoutes");
 
+app.use(allRoutes);
 //--------------------database connection---------------
 mongoose
   .connect(process.env.MONGO_URI)
@@ -37,5 +38,5 @@ mongoose
   })
   .catch((err) => {
     console.log(err);
+
   });
-app.use(allRoutes);

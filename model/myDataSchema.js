@@ -1,23 +1,50 @@
-const mongoose = require('mongoose');
-const { Agent } = require('node:http');
-const Schema = mongoose.Schema;
-// define the Schema (the structure of the article)
-const userSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  number: String,
-  age: Number,
-  country: String,
-  gender: String,
-  password: String},
-{ timestamps: true }
-)
-userSchema.index({ firstName: 1 });
-userSchema.index({ lastName: 1 });
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-// Create a model based on that schema
-const User = mongoose.model("User", userSchema)
+const userSchema = new Schema(
+  {
+    firstName: {
+      type: String,
+      required: [true, "First name is required"],
+      trim: true,
+      minlength: [2, "First name must be at least 2 characters"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "Last name is required"],
+      trim: true,
+      minlength: [2, "Last name must be at least 2 characters"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: [
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        "Please provide a valid email address",
+      ],
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [8, "Password must be at least 8 characters"],
+    },
+    country: {
+      type: String,
+      required: [true, "Country is required"],
+    },
+    age: {
+      type: Number,
+      min: [18, "Age must be at least 18"],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-// export the model
-module.exports = User
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;

@@ -1,7 +1,7 @@
 const User = require("../model/myDataSchema.js");
 const country_list = require("../data/data.js");
+const authServices = require("../services/authServices");
 
-const {passwordsMatch,emailExists,hashPassword,} = require("../services/authService.js");
 
 //-------------------register-------------------
 const user_reg_get = (req,res)=>{
@@ -9,34 +9,28 @@ const user_reg_get = (req,res)=>{
 }
 
 const user_post = async (req, res) => {
-                   //password matching
-try {
-    const { password, confirmPassword, email } = req.body;
-
-    if (!passwordsMatch(password, confirmPassword)) {
-      return res.status(400).render("user/register", {
-        country_list,
-        errors: ["Passwords do not match"],
-      });
-    }
-
-    if (await emailExists(email)) {
-      return res.status(400).render("user/register", {
-        country_list,
-        errors: ["Email already registered"],
-      });
-    }
-
-    const hashedPassword = await hashPassword(password);
-
-    await User.create({ ...req.body, password: hashedPassword });
-
-    res.redirect("/login");
+  try {
+    await authServices.registerUser(req.body);
+    return res.redirect("/login");
   } catch (err) {
-    console.log(err);
-    res.status(500).send("problem happened");
+    const errors = [];
+
+    if (err.code === 11000) {
+      errors.push("Email is already registered");
+    } else if (err.name === "ValidationError") {
+      Object.values(err.errors).forEach((e) => errors.push(e.message));
+    } else {
+      errors.push("An unexpected server error occurred");
+    }
+
+    return res.status(400).render("user/register", {
+      country_list,
+      errors,
+    });
   }
 };
+
+module.exports = { user_post };
 //--------------------view the db--------------
 
 const user_index_get = (req, res) => {
@@ -58,6 +52,7 @@ const user_index_get = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).send("Enternal Server Error");
     });
   };
   
@@ -73,6 +68,9 @@ const user_view_get = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+        res.status(500).send("Enternal Server Error");
+
+      
     });
 };
 //--------------------view & edit exact user in db--------------
@@ -84,6 +82,8 @@ const user_edit_get = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+            res.status(500).send("Enternal Server Error");
+
     });
 };
 //--------------------delete exact user in db--------------
@@ -100,6 +100,8 @@ const user_delete = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+            res.status(500).send("Enternal Server Error");
+
     });
 };
 //--------------------update exact user in db--------------
@@ -112,6 +114,8 @@ const user_put = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+            res.status(500).send("Enternal Server Error");
+
     });
 };
 //-------------------search into db-------------------
@@ -136,6 +140,8 @@ const user_search_get = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+            res.status(500).send("Enternal Server Error");
+
     });
 };
 const failed=(req,res)=>{res.status(404).render("404");}
