@@ -7,7 +7,7 @@ const registerRules = require("../middlewares/validateRegister");
 
 //-------------------register-------------------
 router.get("/register",controller.user_reg_get );
-router.post("/register",registerRules,controller.user_post );
+router.post("/register",registerRules.validateFields,controller.user_post );
 //-------------------login-------------------
 // router.get("/login",controller.user_log_get );
 // router.post("/login",controller.user_post );

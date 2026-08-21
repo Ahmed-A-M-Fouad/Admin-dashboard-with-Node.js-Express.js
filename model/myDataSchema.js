@@ -37,8 +37,12 @@ const userSchema = new Schema(
     },
     age: {
       type: Number,
-      min: [18, "Age must be at least 18"],
+      required: [true, "Country is required"],
+
     },
+    number: { 
+    type: Number,
+    required: [true, "Phone number is required"], },
   },
   {
     timestamps: true,

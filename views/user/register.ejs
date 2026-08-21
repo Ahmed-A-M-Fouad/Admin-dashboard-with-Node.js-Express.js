@@ -71,11 +71,11 @@
           <div class="field-row">
             <div class="field-group">
               <span class="field-tag">password</span>
-              <input type="password" name="password" id="password" placeholder="••••••••" required minlength="6">
+              <input type="password" name="password" id="password" placeholder="••••••••" required minlength="8">
             </div>
             <div class="field-group">
               <span class="field-tag">confirm_password</span>
-              <input type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" required minlength="6">
+              <input type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" required minlength="8">
               <div class="hint" id="matchHint"></div>
             </div>
           </div>
@@ -83,18 +83,18 @@
           <div class="field-row">
             <div class="field-group">
               <span class="field-tag">phone</span>
-              <input type="tel" name="number" placeholder="011 987 899">
+              <input type="tel" name="number" placeholder="011 987 899"required>
             </div>
             <div class="field-group">
               <span class="field-tag">age</span>
-              <input type="number" name="age" placeholder="25" min="0" max="120">
+              <input type="number" name="age" placeholder="25" min="0" max="120"required>
             </div>
           </div>
 
           <div class="field-row">
             <div class="field-group">
               <span class="field-tag">country</span>
-              <select name="country">
+              <select name="country"required>
                 <option selected hidden disabled value="">Choose...</option>
                 <% country_list.forEach(element => {%>
                   

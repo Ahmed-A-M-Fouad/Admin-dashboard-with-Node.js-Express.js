@@ -10,27 +10,28 @@ const user_reg_get = (req,res)=>{
 
 const user_post = async (req, res) => {
   try {
-    await authServices.registerUser(req.body);
-    return res.redirect("/login");
-  } catch (err) {
+    const register = await authServices.registerUser(req.body)
+    return res.redirect("/login")
+    
+  } catch (error) {
     const errors = [];
-
-    if (err.code === 11000) {
-      errors.push("Email is already registered");
-    } else if (err.name === "ValidationError") {
-      Object.values(err.errors).forEach((e) => errors.push(e.message));
+    if (error.errorCode === "EMAIL_EXISTS"){
+      errors.push("Email is already registered")
     } else {
-      errors.push("An unexpected server error occurred");
+      
+      errors.push("An unexpected error occurred");
     }
-
+    
     return res.status(400).render("user/register", {
       country_list,
       errors,
     });
+    
   }
-};
+}
 
-module.exports = { user_post };
+
+
 //--------------------view the db--------------
 
 const user_index_get = (req, res) => {
